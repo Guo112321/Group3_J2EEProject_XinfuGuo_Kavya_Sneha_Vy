@@ -1,0 +1,113 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f5f0; /* Off-white background */
+    padding: 20px;
+}
+
+/* Navbar at the top */
+.navbar {
+    background-color: #a30000; /* Cherry Red */
+    padding: 15px;
+    position: relative; /* Keep at the top */
+}
+
+.navbar ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: flex-end; /* Align links to the right */
+}
+
+.navbar ul li {
+    margin-left: 20px;
+}
+
+.navbar ul li a {
+    color: #fff; /* White text */
+    text-decoration: none;
+    font-size: 16px;
+    padding: 5px 10px;
+    transition: background-color 0.3s;
+}
+
+.navbar ul li a:hover {
+    background-color: #800000; /* Darker Cherry Red on hover */
+    border-radius: 5px;
+}
+
+/* Container */
+.container {
+    width: 100%;
+    max-width: 600px;
+    margin: 30px auto;
+    background-color: #fff; /* White background for forms */
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+/* Form styling */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+form label {
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+form input {
+    margin-bottom: 20px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+form button {
+    padding: 10px;
+    background-color: #a30000; /* Cherry Red */
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+form button:hover {
+    background-color: #800000; /* Darker Cherry Red on hover */
+}
+
+/* Links */
+a {
+    color: #a30000; /* Cherry Red links */
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: #800000; /* Darker Cherry Red on hover */
+    text-decoration: underline;
+}
+
+/* Centering login and signup forms */
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+form div {
+    text-align: center;
+}
+
+form input, form button {
+    width: 100%;
+}

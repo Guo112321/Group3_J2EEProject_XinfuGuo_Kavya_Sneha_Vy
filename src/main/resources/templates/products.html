@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Products</title>
+</head>
+<body>
+<h1>Products</h1>
+
+<form th:action="@{/products/search}" method="get">
+    <input type="text" name="name" placeholder="Search by name">
+    <input type="text" name="category" placeholder="Search by category">
+    <input type="number" name="minPrice" placeholder="Min Price">
+    <input type="number" name="maxPrice" placeholder="Max Price">
+    <select name="available">
+        <option value="">Any</option>
+        <option value="true">Available</option>
+        <option value="false">Out of Stock</option>
+    </select>
+    <input type="text" name="location" placeholder="Store Location">
+    <button type="submit">Search</button>
+</form>
+
+
+<div>
+    <ul>
+        <li th:each="product : ${products}">
+            <span th:text="${product.name}"></span> -
+            <span th:text="${product.category}"></span> -
+            <span th:text="${product.price}"></span> -
+            <span th:text="${product.available}"></span>
+            <a th:href="@{/products/delete/{id}(id=${product.id})}">Delete</a>
+        </li>
+    </ul>
+</div>
+
+<a href="/products/add">Add New Product</a>
+</body>
+</html>
