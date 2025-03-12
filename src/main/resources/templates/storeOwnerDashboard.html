@@ -14,8 +14,67 @@
 </div>
 
 <h1>Store Owner Dashboard</h1>
-<p>Welcome to your dashboard where you can manage your store.</p>
+<p>Welcome to your dashboard where you can manage your store's inventory.</p>
 
+<h2>Inventory Management</h2>
+
+<!-- Inventory List -->
+<div class="inventory-list">
+    <h3>All Inventory Items</h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Item Name</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Available</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${inventory}">
+            <td th:text="${item.itemName}"></td>
+            <td th:text="${item.category}"></td>
+            <td th:text="${item.price}"></td>
+            <td th:text="${item.quantity}"></td>
+            <td th:text="${item.available ? 'Yes' : 'No'}"></td>
+            <td>
+                <a href="#" th:href="@{/store-owner/inventory/edit/{id}(id=${item.id})}">Edit</a>
+                <a href="#" th:href="@{/store-owner/inventory/delete/{id}(id=${item.id})}" onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Add New Item Form -->
+<div class="add-item-form">
+    <h3>Add New Inventory Item</h3>
+    <form action="/store-owner/inventory/add" method="POST">
+        <div>
+            <label for="itemName">Item Name:</label>
+            <input type="text" id="itemName" name="itemName" required>
+        </div>
+        <div>
+            <label for="category">Category:</label>
+            <input type="text" id="category" name="category" required>
+        </div>
+        <div>
+            <label for="price">Price:</label>
+            <input type="number" id="price" name="price" step="0.01" required>
+        </div>
+        <div>
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" name="quantity" required>
+        </div>
+        <div>
+            <label for="available">Available:</label>
+            <input type="checkbox" id="available" name="available">
+        </div>
+        <button type="submit">Add Item</button>
+    </form>
+</div>
 
 </body>
 </html>
