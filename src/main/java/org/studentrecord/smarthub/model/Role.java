@@ -6,16 +6,7 @@ import lombok.*;
 import lombok.Setter;
 import lombok.Getter;
 
-@Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-public class Role {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String name;
+public enum Role {
+    ROLE_CUSTOMER,
+    ROLE_STORE_OWNER
 }

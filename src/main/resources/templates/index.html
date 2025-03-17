@@ -1,20 +1,40 @@
-
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Smart Convenience Hub</title>
     <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        .hero-image {
+            width: 100%;
+            height: 500px;
+            object-fit: fill /* Adjust as needed */
+        }
+    </style>
 </head>
 <body>
-<div class="navbar">
-    <ul>
-        <li><a href="/" th:href="@{/}">Home</a></li>
-        <li><a href="/login" th:href="@{/user/login}">Login</a></li>
-        <li><a href="/register" th:href="@{/user/register}">Register</a></li>
-    </ul>
-</div>
+<header>
+    <div class="navbar">
+        <ul>
+            <li><a href="/" th:href="@{/}">Home</a></li>
+            <li><a href="/login" th:href="@{/user/login}">Login</a></li>
+            <li><a href="/register" th:href="@{/user/register}">Register</a></li>
+        </ul>
+    </div>
+</header>
 
-<h1>Welcome to the Smart Convenience Hub!</h1>
-<p>Your gateway to local convenience stores.</p>
+<main>
+    <section class="hero">
+        <div class="hero-text" align="center">
+            <h2>Shop Your Favorite Local Convenience Items</h2>
+            <p>Get access to all your neighborhood convenience stores right at your fingertips.</p>
+            <img src="/css/images/heroBanner.jpg" alt="Hero Image" class="hero-image">
+
+        </div>
+    </section>
+</main>
+
+<footer th:align="center">
+    <p>&copy; 2025 Smart Convenience Hub. All rights reserved.</p>
+</footer>
 </body>
 </html>

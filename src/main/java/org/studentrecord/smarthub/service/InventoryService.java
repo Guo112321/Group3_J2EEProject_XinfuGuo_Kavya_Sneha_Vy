@@ -27,6 +27,7 @@ public class InventoryService {
         return inventoryRepository.save(inventory);
     }
 
+
     // Update item
     public Inventory updateItem(Long id, Inventory updatedInventory) {
         Optional<Inventory> existingItemOptional = inventoryRepository.findById(id);
@@ -48,8 +49,24 @@ public class InventoryService {
         }
     }
 
+    // InventoryService.java
+    public void softDeleteItem(Long id) {
+        Optional<Inventory> inventoryOptional = inventoryRepository.findById(id);
+        if (inventoryOptional.isPresent()) {
+            Inventory inventory = inventoryOptional.get();
+            inventory.setAvailable(false); // Set available to false for soft delete
+            inventoryRepository.save(inventory); // Save the updated item
+        }
+    }
+
 
     public void deleteItem(Long id) {
         inventoryRepository.deleteById(id);
+    }
+
+    //USER
+    // Search for products by name
+    public List<Inventory> searchProductsByName(String query) {
+        return inventoryRepository.findByItemNameContainingIgnoreCase(query); // Find products with names containing the search query (case-insensitive)
     }
 }

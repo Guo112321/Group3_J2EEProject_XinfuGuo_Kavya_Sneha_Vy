@@ -4,6 +4,30 @@
     <meta charset="UTF-8">
     <title>User Dashboard</title>
     <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        /* Ensure search form and button appear on the same line */
+        .search-container {
+            display: flex;
+            align-items: center;
+            gap: 10px; /* Space between the input field and button */
+        }
+
+        .search-container input {
+            padding: 8px;
+            font-size: 16px;
+            width: 500px; /* Adjust width of the input field */
+            height: 40px; /* Set a consistent height for the input */
+            margin-top: 15px;
+        }
+
+        .search-container button {
+            padding: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100px;
+            height: 40px; /* Ensure button height matches the input field */
+        }
+    </style>
 </head>
 <body>
 <div class="navbar">
@@ -14,7 +38,33 @@
 </div>
 
 <h1>Welcome to your Dashboard</h1>
-<p>Here you can view and manage your profile.</p>
+<!-- Search bar form -->
+<form action="/user/search" method="get">
+    <div class="search-container">
+        <input type="text" name="query" placeholder="Search for products..." required>
+        <button type="submit">Search</button>
+    </div>
+</form>
+
+<h2>Available Inventory</h2>
+<ul>
+    <th:block th:each="item : ${inventory}">
+        <li>
+            <span th:text="${item.itemName}">Item Name</span> -
+            <span th:text="${item.category}">Category</span> -
+            <span th:text="${item.price}">Price</span> -
+            <span th:text="${item.quantity}">Quantity</span> -
+            <span th:text="${item.available ? 'Available' : 'Out of stock'}">Availability</span>
+        </li>
+    </th:block>
+</ul>
+
+<script>
+    function addToCart(productId) {
+        // Add product to cart (e.g., save it in session or localStorage)
+        alert("Product " + productId + " added to the cart!");
+    }
+</script>
 
 </body>
 </html>

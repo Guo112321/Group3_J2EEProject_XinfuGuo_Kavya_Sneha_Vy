@@ -4,14 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.studentrecord.smarthub.model.Inventory;
 import org.studentrecord.smarthub.model.Role;
 import org.studentrecord.smarthub.model.User;
+import org.studentrecord.smarthub.service.InventoryService;
 import org.studentrecord.smarthub.service.UserService;
-import org.studentrecord.smarthub.repository.RoleRepository;
 import org.studentrecord.smarthub.repository.UserRepository;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @Controller
 @RequestMapping("/user")
@@ -21,24 +21,25 @@ public class UserController {
     private UserService userService;
 
     @Autowired
-    private RoleRepository roleRepository;
-
-    @Autowired
     private UserRepository userRepository;
 
-    // Display login page
+    @Autowired
+    private InventoryService inventoryService;
+
+    // Display login page for both user and store owner
     @GetMapping("/login")
     public String login() {
         return "userLogin";
     }
 
-    // Display register page
+    // Display register page for both user and store owner
     @GetMapping("/register")
-    public String register() {
+    public String register(Model model) {
+        model.addAttribute("user", new User());
         return "userRegister";
     }
 
-    // Handle registration form submission with error messages
+    // Handle registration form submission for both user and store owner
     @PostMapping("/register")
     public String registerSubmit(@ModelAttribute User user, Model model) {
         if (userRepository.findByUsername(user.getUsername()) != null) {
@@ -51,19 +52,24 @@ public class UserController {
             return "userRegister";
         }
 
-        Set<Role> roles = new HashSet<>();
-        Role customerRole = roleRepository.findByName("ROLE_CUSTOMER");
-        if (customerRole != null) {
-            roles.add(customerRole);
+        // Assign role directly based on the username
+        Role role;
+        if (user.getUsername().startsWith("storeOwner")) {
+            // Assign store owner role
+            role = Role.ROLE_STORE_OWNER; // assuming you have added a STORE_OWNER enum value
+        } else {
+            // Assign customer role
+            role = Role.ROLE_CUSTOMER; // assuming you have a CUSTOMER enum value
         }
-        user.setRoles(roles);
+
+        user.setRole(role); // Set the role directly (no repository needed)
 
         userService.registerUser(user);
         model.addAttribute("success", "Registration successful! Please log in.");
         return "userLogin";
     }
 
-    // Handle login form submission with error messages
+    // Handle login form submission for both user and store owner
     @PostMapping("/login")
     public String loginSubmit(@RequestParam String username, @RequestParam String password, Model model) {
         User user = userRepository.findByUsername(username);
@@ -72,12 +78,32 @@ public class UserController {
             return "userLogin";
         }
 
-        return "redirect:/user";
+        // Check the user's role and redirect to the respective dashboard
+        if (user.getRole() == Role.ROLE_STORE_OWNER) {
+            // If store owner, redirect to store owner dashboard
+            List<Inventory> inventoryList = inventoryService.getAllItems();
+            model.addAttribute("inventory", inventoryList);
+            return "storeOwnerDashboard";
+        } else {
+            // If regular user, redirect to user dashboard
+            List<Inventory> inventoryList = inventoryService.getAllItems();
+            model.addAttribute("inventory", inventoryList);
+            return "userDashboard";
+        }
     }
 
-    // Home page (for user dashboard)
+    // Home page (for user dashboard or store owner dashboard)
     @GetMapping(value = {"", "/"})
-    public String userHome() {
-        return "userDashboard";
+    public String userHome(Model model) {
+        List<Inventory> inventoryList = inventoryService.getAllItems(); // Get all inventory items
+        model.addAttribute("inventory", inventoryList);
+        return "userDashboard"; // Default dashboard for regular user
+    }
+
+    @GetMapping("/search")
+    public String searchProducts(@RequestParam("query") String query, Model model) {
+        List<Inventory> searchResults = inventoryService.searchProductsByName(query);
+        model.addAttribute("inventory", searchResults);
+        return "userDashboard"; // Update to the correct view for the user dashboard
     }
 }
