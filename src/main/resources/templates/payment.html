@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Payment Page</title>
+</head>
+<body>
+
+<h2>Payment Page</h2>
+<div>
+    <p>Order ID: <span th:text="${orderId}"></span></p>
+    <p>Total Amount: <span th:text="${totalAmount}"></span></p>
+    <p>Status: <span th:text="${orderStatus}"></span></p>
+</div>
+
+<form th:action="@{/api/order/{orderId}/pay(orderId=${orderId})}" method="post">
+    <button type="submit">Confirm Payment</button>
+</form>
+
+</body>
+</html>

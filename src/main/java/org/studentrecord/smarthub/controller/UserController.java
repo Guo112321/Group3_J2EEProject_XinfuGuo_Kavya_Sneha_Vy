@@ -1,5 +1,6 @@
 package org.studentrecord.smarthub.controller;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -71,12 +72,14 @@ public class UserController {
 
     // Handle login form submission for both user and store owner
     @PostMapping("/login")
-    public String loginSubmit(@RequestParam String username, @RequestParam String password, Model model) {
+    public String loginSubmit(@RequestParam String username, @RequestParam String password, Model model, HttpSession session) {
         User user = userRepository.findByUsername(username);
         if (user == null || !user.getPassword().equals(password)) {
             model.addAttribute("error", "Invalid username or password.");
             return "userLogin";
         }
+
+        session.setAttribute("loggedInUser", user);
 
         // Check the user's role and redirect to the respective dashboard
         if (user.getRole() == Role.ROLE_STORE_OWNER) {

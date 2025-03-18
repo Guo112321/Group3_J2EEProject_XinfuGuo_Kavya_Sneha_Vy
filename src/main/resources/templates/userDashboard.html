@@ -55,14 +55,44 @@
             <span th:text="${item.price}">Price</span> -
             <span th:text="${item.quantity}">Quantity</span> -
             <span th:text="${item.available ? 'Available' : 'Out of stock'}">Availability</span>
+
+            <!-- "Add to Cart" button -->
+            <button th:attr="onclick=
+                ${'addToCart(' + item.id + ', 1)'}">
+                Add to Cart
+            </button>
         </li>
     </th:block>
 </ul>
 
+<!-- "order" button -->
+<button onclick="checkout()">Place Order</button>
+
 <script>
-    function addToCart(productId) {
-        // Add product to cart (e.g., save it in session or localStorage)
-        alert("Product " + productId + " added to the cart!");
+    function addToCart(inventoryId, quantity) {
+        fetch('/api/cart/add?inventoryId=' + inventoryId + '&quantity=' + quantity, {
+            method: 'POST'
+        })
+            .then(response => response.text())
+            .then(result => {
+                alert(result);
+            })
+            .catch(err => console.error(err));
+    }
+
+    function checkout() {
+    fetch('/api/cart/checkout', {
+        method: 'POST'
+    })
+        .then(response => response.text())
+        .then(orderId => {
+            if(isNaN(orderId)) {
+                alert(orderId);
+            } else {
+                window.location.href = '/payment?orderId=' + orderId;
+            }
+        })
+        .catch(err => console.error(err));
     }
 </script>
 
