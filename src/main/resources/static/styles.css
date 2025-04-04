@@ -1,0 +1,184 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f5f0; /* Off-white background */
+    padding: 20px;
+}
+
+/* Navbar at the top */
+.navbar {
+    background-color: #a30000; /* Cherry Red */
+    padding: 15px;
+    position: relative; /* Keep at the top */
+}
+
+.navbar ul {
+    list-style-type: none;
+    display: flex;
+    justify-content: flex-end; /* Align links to the right */
+}
+
+.navbar ul li {
+    margin-left: 20px;
+}
+
+.navbar ul li a {
+    color: #fff; /* White text */
+    text-decoration: none;
+    font-size: 16px;
+    padding: 5px 10px;
+    transition: background-color 0.3s;
+}
+
+.navbar ul li a:hover {
+    background-color: #800000; /* Darker Cherry Red on hover */
+    border-radius: 5px;
+}
+
+/* Container */
+.container {
+    width: 100%;
+    max-width: 600px;
+    margin: 30px auto;
+    background-color: #fff; /* White background for forms */
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+/* Form styling */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+form label {
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+form input {
+    margin-bottom: 20px;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+form button {
+    padding: 10px;
+    background-color: #a30000; /* Cherry Red */
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+form button:hover {
+    background-color: #800000; /* Darker Cherry Red on hover */
+}
+
+/* Links */
+a {
+    color: #a30000; /* Cherry Red links */
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: #800000; /* Darker Cherry Red on hover */
+    text-decoration: underline;
+}
+
+/* Centering login and signup forms */
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+form div {
+    text-align: center;
+}
+
+form input, form button {
+    width: 100%;
+}
+
+/* Table Styles */
+.inventory-list table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.inventory-list th, .inventory-list td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.inventory-list th {
+    background-color: #eee;
+}
+
+.inventory-list tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Add Item Form */
+.add-item-form {
+    background-color: white;
+    padding: 20px;
+    margin-top: 30px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.add-item-form h3 {
+    margin-bottom: 20px;
+}
+
+.add-item-form div {
+    margin-bottom: 15px;
+}
+
+.add-item-form label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.add-item-form input[type="text"],
+.add-item-form input[type="number"],
+.add-item-form input[type="checkbox"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+}
+
+.add-item-form button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    width: 100%;
+    cursor: pointer;
+}
+
+.add-item-form button:hover {
+    background-color: #45a049;
+}
+
+

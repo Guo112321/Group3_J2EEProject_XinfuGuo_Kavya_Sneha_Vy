@@ -60,6 +60,20 @@ public class InventoryController {
         inventoryService.softDeleteItem(id); // Perform soft delete
         return "redirect:/store-owner/inventory";
     }
+    @GetMapping("/search")
+    public String searchInventory(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) Boolean available,
+            @RequestParam(required = false) Double minPrice,
+            @RequestParam(required = false) Double maxPrice,
+            @RequestParam(required = false) String sortBy,
+            Model model
+    ) {
+        List<Inventory> results = inventoryService.advancedSearch(name, category, available, minPrice, maxPrice, sortBy);
+        model.addAttribute("inventory", results);
+        return "storeOwnerDashboard";
+    }
 
 
 

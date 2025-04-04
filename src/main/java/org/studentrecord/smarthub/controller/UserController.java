@@ -105,8 +105,11 @@ public class UserController {
 
     @GetMapping("/search")
     public String searchProducts(@RequestParam("query") String query, Model model) {
-        List<Inventory> searchResults = inventoryService.searchProductsByName(query);
+        List<Inventory> searchResults = inventoryService.advancedSearch(query, null, true, null, null, "name");
         model.addAttribute("inventory", searchResults);
-        return "userDashboard"; // Update to the correct view for the user dashboard
+        model.addAttribute("query", query); // Optional: show what they searched
+        return "userDashboard";
     }
+
+
 }

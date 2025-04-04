@@ -1,5 +1,7 @@
 package org.studentrecord.smarthub.service;
 
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.studentrecord.smarthub.model.Inventory;
 import org.studentrecord.smarthub.repository.InventoryRepository;
@@ -27,35 +29,30 @@ public class InventoryService {
         return inventoryRepository.save(inventory);
     }
 
-
-    // Update item
     public Inventory updateItem(Long id, Inventory updatedInventory) {
         Optional<Inventory> existingItemOptional = inventoryRepository.findById(id);
 
         if (existingItemOptional.isPresent()) {
             Inventory existingItem = existingItemOptional.get();
 
-            // Update the existing item with the new values
-            existingItem.setItemName(updatedInventory.getItemName()); // Corrected getter and setter
-            existingItem.setCategory(updatedInventory.getCategory()); // Corrected getter and setter
-            existingItem.setQuantity(updatedInventory.getQuantity()); // Corrected getter and setter
-            existingItem.setPrice(updatedInventory.getPrice()); // Corrected getter and setter
-            existingItem.setAvailable(updatedInventory.isAvailable()); // Corrected setter for boolean
+            existingItem.setItemName(updatedInventory.getItemName());
+            existingItem.setCategory(updatedInventory.getCategory());
+            existingItem.setQuantity(updatedInventory.getQuantity());
+            existingItem.setPrice(updatedInventory.getPrice());
+            existingItem.setAvailable(updatedInventory.isAvailable());
 
-            // Save the updated item
             return inventoryRepository.save(existingItem);
         } else {
-            return null; // or throw an exception if you want to handle not found cases
+            return null;
         }
     }
 
-    // InventoryService.java
     public void softDeleteItem(Long id) {
         Optional<Inventory> inventoryOptional = inventoryRepository.findById(id);
         if (inventoryOptional.isPresent()) {
             Inventory inventory = inventoryOptional.get();
-            inventory.setAvailable(false); // Set available to false for soft delete
-            inventoryRepository.save(inventory); // Save the updated item
+            inventory.setAvailable(false);
+            inventoryRepository.save(inventory);
         }
     }
 
@@ -63,9 +60,38 @@ public class InventoryService {
         inventoryRepository.deleteById(id);
     }
 
-    //USER
-    // Search for products by name
+    // 🔍 Basic name search
     public List<Inventory> searchProductsByName(String query) {
-        return inventoryRepository.findByItemNameContainingIgnoreCase(query); // Find products with names containing the search query (case-insensitive)
+        return inventoryRepository.findByItemNameContainingIgnoreCase(query);
+    }
+
+    // 🔎 Advanced search with filters and sort
+    public List<Inventory> advancedSearch(String name, String category, Boolean available, Double minPrice, Double maxPrice, String sortBy) {
+        Specification<Inventory> spec = Specification.where(null);
+
+        if (name != null && !name.isEmpty()) {
+            spec = spec.and((root, query, cb) -> cb.like(cb.lower(root.get("itemName")), "%" + name.toLowerCase() + "%"));
+        }
+        if (category != null && !category.isEmpty()) {
+            spec = spec.and((root, query, cb) -> cb.equal(root.get("category"), category));
+        }
+        if (available != null) {
+            spec = spec.and((root, query, cb) -> cb.equal(root.get("available"), available));
+        }
+        if (minPrice != null) {
+            spec = spec.and((root, query, cb) -> cb.greaterThanOrEqualTo(root.get("price"), minPrice));
+        }
+        if (maxPrice != null) {
+            spec = spec.and((root, query, cb) -> cb.lessThanOrEqualTo(root.get("price"), maxPrice));
+        }
+
+        Sort sort = Sort.unsorted();
+        if ("price".equalsIgnoreCase(sortBy)) {
+            sort = Sort.by("price").ascending();
+        } else if ("name".equalsIgnoreCase(sortBy)) {
+            sort = Sort.by("itemName").ascending();
+        }
+
+        return inventoryRepository.findAll(spec, sort);
     }
 }
