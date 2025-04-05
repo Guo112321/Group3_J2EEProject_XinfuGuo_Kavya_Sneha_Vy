@@ -12,59 +12,30 @@
             padding: 20px;
         }
 
-        .navbar ul {
-            list-style-type: none;
-            padding: 0;
-            background-color: #333;
-            overflow: hidden;
+        .navbar {
+            background-color: #a30000;
+            padding: 12px 20px;
+            color: white;
         }
 
-        .navbar li {
-            float: left;
+        .navbar ul {
+            list-style-type: none;
+            display: flex;
+            justify-content: flex-end;
+            margin: 0;
+            padding: 0;
+            gap: 20px;
         }
 
         .navbar li a {
-            display: block;
             color: white;
-            text-align: center;
-            padding: 14px 16px;
             text-decoration: none;
+            font-weight: bold;
         }
 
-        .navbar li a:hover {
-            background-color: #111;
-        }
-
-        form.mb-3 {
-            margin-top: 20px;
-            margin-bottom: 30px;
-            background-color: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-        }
-
-        form.mb-3 input,
-        form.mb-3 select {
-            padding: 10px;
-            margin: 5px;
-            font-size: 14px;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-        }
-
-        form.mb-3 button {
-            padding: 10px 20px;
-            font-size: 14px;
-            background-color: #0066cc;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-
-        form.mb-3 button:hover {
-            background-color: #004d99;
+        h1 {
+            text-align: center;
+            margin: 20px 0;
         }
 
         .inventory-list table {
@@ -157,45 +128,19 @@
 </head>
 <body>
 
+<!-- 🌟 New Clean Navbar -->
 <div class="navbar">
     <ul>
-        <li><a href="/" th:href="@{/}">Home</a></li>
-        <li><a href="/user/login" th:href="@{/user/login}">Logout</a></li>
+        <li><a th:href="@{/}">Home</a></li>
+        <li><a th:href="@{/user/login}">Logout</a></li>
     </ul>
 </div>
 
 <h1>Store Owner Dashboard</h1>
 
-<!-- 🔍 Search & Filter Form -->
-<form action="/store-owner/inventory/search" method="get" class="mb-3">
-    <input type="text" name="name" placeholder="Search by name">
-    <input type="text" name="category" placeholder="Category">
-    <input type="number" name="minPrice" step="0.01" placeholder="Min Price">
-    <input type="number" name="maxPrice" step="0.01" placeholder="Max Price">
-
-    <select name="available">
-        <option value="">All</option>
-        <option value="true">Available</option>
-        <option value="false">Out of Stock</option>
-    </select>
-
-    <select name="sortBy">
-        <option value="">Sort By</option>
-        <option value="price">Price</option>
-        <option value="name">Name</option>
-    </select>
-
-    <button type="submit">Search</button>
-</form>
-
 <!-- 📦 Inventory List -->
 <div class="inventory-list">
     <h3>All Inventory Items</h3>
-
-    <p th:if="${not #lists.isEmpty(inventory)}">
-        Showing <span th:text="${inventory.size()}"></span> item(s)
-        <span th:if="${param.name}"> matching "<strong th:text="${param.name}"></strong>"</span>
-    </p>
 
     <table>
         <thead>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>My Cart</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fefcfb;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #a30000;
+    }
+
+    .cart-container {
+      max-width: 1000px;
+      margin: auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #ddd;
+      text-align: center;
+    }
+
+    th {
+      background-color: #a30000;
+      color: white;
+    }
+
+    img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+
+    .total-section {
+      text-align: right;
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .cart-actions button {
+      background-color: #a30000;
+      color: white;
+      padding: 6px 12px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .cart-actions button:hover {
+      background-color: #800000;
+    }
+
+    .checkout-btn {
+      display: block;
+      margin: 30px auto 0;
+      background-color: navy;
+      color: white;
+      padding: 12px 24px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .checkout-btn:hover {
+      background-color: #000066;
+    }
+  </style>
+</head>
+<body>
+<div class="cart-container">
+  <h1>Your Shopping Cart</h1>
+
+  <table>
+    <thead>
+    <tr>
+      <th>Image</th>
+      <th>Item</th>
+      <th>Price</th>
+      <th>Quantity</th>
+      <th>Subtotal</th>
+      <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item : ${cart}">
+      <td><img th:src="@{'/images/' + ${#strings.replace(item.inventory.itemName.toLowerCase(), ' ', '').replace('-', '')} + '.png'}" alt="Image"></td>
+      <td th:text="${item.inventory.itemName}"></td>
+      <td>₹<span th:text="${item.price}"></span></td>
+      <td>
+        <form th:action="@{/cart/update}" method="post" style="display: inline-flex; gap: 5px;">
+          <input type="hidden" name="inventoryId" th:value="${item.inventory.id}"/>
+          <input type="number" name="quantity" th:value="${item.quantity}" min="1" th:max="${item.inventory.quantity}" style="width: 60px; padding: 5px; border-radius: 4px; border: 1px solid #ccc;"/>
+          <button type="submit">Update</button>
+        </form>
+      </td>
+      <td>₹<span th:text="${item.price * item.quantity}"></span></td>
+      <td class="cart-actions">
+        <form th:action="@{/cart/remove}" method="post">
+          <input type="hidden" name="inventoryId" th:value="${item.inventory.id}"/>
+          <button type="submit">Remove</button>
+        </form>
+      </td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(cart)}">
+      <td colspan="6">Your cart is empty.</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div class="total-section">
+    Total: ₹<span th:text="${total}"></span>
+  </div>
+
+  <form th:action="@{/cart/checkout}" method="post">
+    <button class="checkout-btn" type="submit">Place Order</button>
+  </form>
+</div>
+</body>
+</html>

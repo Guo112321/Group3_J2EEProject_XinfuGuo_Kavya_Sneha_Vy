@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.*;
 import org.studentrecord.smarthub.model.Inventory;
 import org.studentrecord.smarthub.model.Role;
 import org.studentrecord.smarthub.model.User;
+import org.studentrecord.smarthub.repository.UserRepository;
 import org.studentrecord.smarthub.service.InventoryService;
 import org.studentrecord.smarthub.service.UserService;
-import org.studentrecord.smarthub.repository.UserRepository;
 
 import java.util.List;
 
@@ -27,20 +27,17 @@ public class UserController {
     @Autowired
     private InventoryService inventoryService;
 
-    // Display login page for both user and store owner
     @GetMapping("/login")
     public String login() {
         return "userLogin";
     }
 
-    // Display register page for both user and store owner
     @GetMapping("/register")
     public String register(Model model) {
         model.addAttribute("user", new User());
         return "userRegister";
     }
 
-    // Handle registration form submission for both user and store owner
     @PostMapping("/register")
     public String registerSubmit(@ModelAttribute User user, Model model) {
         if (userRepository.findByUsername(user.getUsername()) != null) {
@@ -53,24 +50,19 @@ public class UserController {
             return "userRegister";
         }
 
-        // Assign role directly based on the username
         Role role;
         if (user.getUsername().startsWith("storeOwner")) {
-            // Assign store owner role
-            role = Role.ROLE_STORE_OWNER; // assuming you have added a STORE_OWNER enum value
+            role = Role.ROLE_STORE_OWNER;
         } else {
-            // Assign customer role
-            role = Role.ROLE_CUSTOMER; // assuming you have a CUSTOMER enum value
+            role = Role.ROLE_CUSTOMER;
         }
 
-        user.setRole(role); // Set the role directly (no repository needed)
-
+        user.setRole(role);
         userService.registerUser(user);
         model.addAttribute("success", "Registration successful! Please log in.");
         return "userLogin";
     }
 
-    // Handle login form submission for both user and store owner
     @PostMapping("/login")
     public String loginSubmit(@RequestParam String username, @RequestParam String password, Model model, HttpSession session) {
         User user = userRepository.findByUsername(username);
@@ -81,35 +73,43 @@ public class UserController {
 
         session.setAttribute("loggedInUser", user);
 
-        // Check the user's role and redirect to the respective dashboard
         if (user.getRole() == Role.ROLE_STORE_OWNER) {
-            // If store owner, redirect to store owner dashboard
             List<Inventory> inventoryList = inventoryService.getAllItems();
             model.addAttribute("inventory", inventoryList);
             return "storeOwnerDashboard";
         } else {
-            // If regular user, redirect to user dashboard
             List<Inventory> inventoryList = inventoryService.getAllItems();
             model.addAttribute("inventory", inventoryList);
             return "userDashboard";
         }
     }
 
-    // Home page (for user dashboard or store owner dashboard)
-    @GetMapping(value = {"", "/"})
+    @GetMapping({"", "/"})
     public String userHome(Model model) {
-        List<Inventory> inventoryList = inventoryService.getAllItems(); // Get all inventory items
+        List<Inventory> inventoryList = inventoryService.getAllItems();
         model.addAttribute("inventory", inventoryList);
-        return "userDashboard"; // Default dashboard for regular user
+        return "userDashboard";
     }
 
     @GetMapping("/search")
     public String searchProducts(@RequestParam("query") String query, Model model) {
-        List<Inventory> searchResults = inventoryService.advancedSearch(query, null, true, null, null, "name");
+        List<Inventory> searchResults = inventoryService.searchProductsByName(query);
         model.addAttribute("inventory", searchResults);
-        model.addAttribute("query", query); // Optional: show what they searched
         return "userDashboard";
     }
 
-
+    @GetMapping("/search/advanced")
+    public String advancedSearch(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) Boolean available,
+            @RequestParam(required = false) Double minPrice,
+            @RequestParam(required = false) Double maxPrice,
+            @RequestParam(required = false) String sortBy,
+            Model model
+    ) {
+        List<Inventory> filteredResults = inventoryService.advancedSearch(name, category, available, minPrice, maxPrice, sortBy);
+        model.addAttribute("inventory", filteredResults);
+        return "userDashboard";
+    }
 }
