@@ -1,41 +1,76 @@
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Smart Convenience Hub</title>
     <link rel="stylesheet" href="/styles.css" th:href="@{/styles.css}">
-
-    <style>
-        .hero-image {
-            width: 100%;
-            height: 500px;
-            object-fit: fill /* Adjust as needed */
-        }
-    </style>
 </head>
 <body>
+
 <header>
+    <!-- White Navbar with Social Media Links -->
     <div class="navbar">
         <ul>
             <li><a href="/" th:href="@{/}">Home</a></li>
             <li><a href="/login" th:href="@{/user/login}">Login</a></li>
-            <li><a href="/register" th:href="@{/user/register}">Register</a></li>
+            <li><a href="/register" th:href="@{/user/register}">Sign Up</a></li>
+
+            <!-- Social Media Links -->
+            <li><a href="https://facebook.com" target="_blank" class="social-icon">
+                <img src="/images/facebook.png" alt="Facebook">
+            </a></li>
+            <li><a href="https://twitter.com" target="_blank" class="social-icon">
+                <img src="/images/twitter.png" alt="Twitter">
+            </a></li>
+            <li><a href="https://instagram.com" target="_blank" class="social-icon">
+                <img src="/images/instagram.png" alt="Instagram">
+            </a></li>
         </ul>
+    </div>
+
+    <!-- Red Secondary Navbar with Search Bar -->
+    <div class="secondary-navbar">
+        <div class="label">Search Nearest Locations Store</div>
+        <div class="search-container">
+            <input type="text" placeholder="Enter location...">
+        </div>
     </div>
 </header>
 
 <main>
     <section class="hero">
-        <div class="hero-text" align="center">
-            <h2>Shop Your Favorite Local Convenience Items</h2>
-            <p>Get access to all your neighborhood convenience stores right at your fingertips.</p>
-            <img src="/images/heroBanner.jpg" alt="Hero Image" class="hero-image">
+        <div class="hero-text">
+            <h2>Shop Your Favourite Local Convenience Items</h2>
+            <p>Get access to all your neighbourhood convenience stores right at your fingertips.</p>
+        </div>
+    </section>
 
+    <!-- Image Gallery Section -->
+    <section class="image-gallery">
+        <img src="/images/img1.jpeg" alt="Image 1">
+        <img src="/images/img2.webp" alt="Image 2">
+        <img src="/images/img4.webp" alt="Image 4">
+        <img src="/images/img5.jpg" alt="Image 5">
+        <img src="/images/img6.jpeg" alt="Image 6">
+        <img src="/images/img7.jpg" alt="Image 7">
+    </section>
+
+    <!-- Top Picks Section -->
+    <section class="top-picks">
+        <h2>Editor's Choice</h2>
+        <p>Handpicked products that you won't want to miss!</p>
+
+        <div class="top-picks-gallery">
+            <img src="/images/top-pick1.webp" alt="Top Pick 1">
+            <img src="/images/top-pick2.webp" alt="Top Pick 2">
+            <img src="/images/top-pick3.jpeg" alt="Top Pick 3">
         </div>
     </section>
 </main>
 
-<footer th:align="center">
+<footer>
     <p>&copy; 2025 Smart Convenience Hub. All rights reserved.</p>
 </footer>
+
 </body>
 </html>

@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <title>Register - Smart Convenience Hub</title>
     <link rel="stylesheet" href="/styles.css" th:href="@{/styles.css}">
-
 </head>
 <body>
+<!-- First Navbar -->
 <div class="navbar">
     <ul>
         <li><a href="/" th:href="@{/}">Home</a></li>
@@ -14,17 +14,28 @@
     </ul>
 </div>
 
-<div class="container">
-    <h2>Register</h2>
+<!-- Second Navbar (Cherry Red) -->
+<div class="secondary-navbar">
+    <div class="label">Search Nearest Locations Store</div>
+    <div class="search-container">
+        <input type="text" placeholder="Search..." />
+    </div>
+</div>
 
+<!-- Main Content -->
+<div class="container">
+
+    <!-- Error Message -->
     <div th:if="${error}" class="error">
         <p th:text="${error}"></p>
     </div>
 
+    <!-- Success Message -->
     <div th:if="${success}" class="success">
         <p th:text="${success}"></p>
     </div>
 
+    <!-- Registration Form -->
     <form th:action="@{/user/register}" method="post" th:object="${user}">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" th:field="*{username}" required>

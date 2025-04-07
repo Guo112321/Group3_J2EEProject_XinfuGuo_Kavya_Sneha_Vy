@@ -11,17 +11,46 @@ body {
     padding: 20px;
 }
 
-/* Navbar at the top */
-.navbar {
-    background-color: #a30000; /* Cherry Red */
-    padding: 15px;
-    position: relative; /* Keep at the top */
+/* Social Media Icons */
+.social-icon img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    margin-right: 10px; /* Space between icons */
+}
+/* Prevent hover effect on social media links */
+.social-icon:hover {
+    background-color: transparent !important;
+    text-decoration: none !important;
+    cursor: default !important;
+    color: inherit !important;
+}
+.social-icon img:hover {
+    background-color: transparent !important;
+    border: none !important;
+    cursor: default !important;
 }
 
+/* Navbar */
+.navbar {
+    background-color: white; /* White background */
+    padding: 20px 20px;
+    display: flex;
+    justify-content: flex-end; /* Right-align nav links */
+    border-bottom: 1px solid #ccc;
+    position: sticky; /* Stick the navbar to the top */
+    top: 0;
+    z-index: 1000; /* Ensure it stays on top of other content */
+    height: 80px;
+}
+
+/* Navbar links */
 .navbar ul {
     list-style-type: none;
     display: flex;
-    justify-content: flex-end; /* Align links to the right */
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
 }
 
 .navbar ul li {
@@ -29,23 +58,147 @@ body {
 }
 
 .navbar ul li a {
-    color: #fff; /* White text */
+    color: #000; /* Black text */
     text-decoration: none;
-    font-size: 16px;
+    font-size: 20px;
+    font-weight: bold;
     padding: 5px 10px;
-    transition: background-color 0.3s;
 }
 
 .navbar ul li a:hover {
-    background-color: #800000; /* Darker Cherry Red on hover */
+    background-color: #ddd; /* Light gray hover */
     border-radius: 5px;
+}
+
+/* Second Navbar - Red */
+.secondary-navbar {
+    background-color: #a30000; /* Cherry Red */
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.secondary-navbar .label {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.secondary-navbar .search-container {
+    display: flex;
+    align-items: center;
+}
+
+.secondary-navbar input[type="text"] {
+    padding: 8px 12px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: none;
+    width: 250px;
+}
+
+.secondary-navbar input[type="text"]:focus {
+    outline: none;
+    border: 2px solid #800000; /* Focused red border */
+}
+
+.forgot-password {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.forgot-password a {
+    color: #a30000; /* Cherry Red */
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.forgot-password a:hover {
+    color: #800000; /* Darker Cherry Red on hover */
+}
+
+
+/* Hero Section (no image, light background) */
+.hero {
+    width: 100%;
+    padding: 60px 20px;
+    background-color: #f0f0f0;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.hero h2 {
+    font-size: 50px;
+    margin-bottom: 10px;
+    color: black;
+    font-weight: bold; /* Make the text bold */
+}
+
+.hero p {
+    font-size: 22px;
+    color: #333;
+    font-style: italic;
+}
+
+/* Image Gallery Section */
+.image-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Always 3 columns */
+    gap: 20px; /* Spacing between images */
+    margin-top: 20px;
+}
+
+.image-gallery img {
+    width: 100%; /* Ensure images fill the width of each column */
+    height: 400px; /* Fixed height for all images */
+    object-fit: cover; /* Maintain aspect ratio and cover the available space */
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Top Picks Section */
+.top-picks {
+    text-align: center;
+    margin-top: 40px;
+    padding: 40px;
+    background-color: #f0f0f0;
+    border-radius: 10px;
+}
+
+.top-picks h2 {
+    font-size: 50px;
+    color: black;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.top-picks p {
+    font-size: 22px;
+    color: #333;
+    margin-bottom: 30px;
+    font-style: italic;
+}
+
+.top-picks-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 items in a row */
+    gap: 20px;
+}
+
+.top-picks-gallery img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* Container */
 .container {
     width: 100%;
     max-width: 600px;
-    margin: 30px auto;
+    margin: 60px auto;
     background-color: #fff; /* White background for forms */
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -181,4 +334,14 @@ form input, form button {
     background-color: #45a049;
 }
 
-
+/* Footer */
+footer {
+    text-align: center;
+    background-color: #000; /* Black background */
+    color: white;
+    padding: 80px 0;
+    font-size: 18px;
+    width: 100%; /* Full width */
+    position: relative;
+    margin-top: 20px;
+}
