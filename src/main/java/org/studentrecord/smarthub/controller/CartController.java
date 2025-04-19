@@ -4,12 +4,9 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.studentrecord.smarthub.model.Inventory;
-import org.studentrecord.smarthub.model.OrderItem;
-import org.studentrecord.smarthub.model.Order;
-import org.studentrecord.smarthub.model.OrderStatus;
-import org.studentrecord.smarthub.model.User;
+import org.studentrecord.smarthub.model.*;
 import org.studentrecord.smarthub.service.InventoryService;
+import org.studentrecord.smarthub.service.InvoiceService;
 import org.studentrecord.smarthub.service.OrderItemService;
 import org.studentrecord.smarthub.service.OrderService;
 
@@ -24,13 +21,16 @@ public class CartController {
     private final InventoryService inventoryService;
     private final OrderService orderService;
     private final OrderItemService orderItemService;
+    private final InvoiceService invoiceService;
 
     public CartController(InventoryService inventoryService,
                           OrderService orderService,
-                          OrderItemService orderItemService) {
+                          OrderItemService orderItemService,
+                          InvoiceService invoiceService) {
         this.inventoryService = inventoryService;
         this.orderService = orderService;
         this.orderItemService = orderItemService;
+        this.invoiceService = invoiceService;
     }
 
     @GetMapping
@@ -121,15 +121,13 @@ public class CartController {
         return "redirect:/cart";
     }
 
-    // ✅ Checkout
     @PostMapping("/checkout")
-    @ResponseBody
     public String checkout(HttpSession session) {
         User user = (User) session.getAttribute("loggedInUser");
-        if (user == null) return "Please log in first.";
+        if (user == null) return "redirect:/login";
 
         List<OrderItem> cart = (List<OrderItem>) session.getAttribute("cart");
-        if (cart == null || cart.isEmpty()) return "Cart is empty.";
+        if (cart == null || cart.isEmpty()) return "redirect:/cart";
 
         double total = 0;
         for (OrderItem item : cart) {
@@ -150,13 +148,16 @@ public class CartController {
 
             Inventory inv = item.getInventory();
             inv.setQuantity(inv.getQuantity() - item.getQuantity());
-            if (inv.getQuantity() <= 0) {
-                inv.setAvailable(false);
-            }
+            if (inv.getQuantity() <= 0) inv.setAvailable(false);
             inventoryService.addItem(inv);
         }
 
         session.removeAttribute("cart");
-        return String.valueOf(savedOrder.getId());
+
+        Invoice invoice = invoiceService.generateInvoice(savedOrder);
+
+        return "redirect:/invoice.html?id=" + invoice.getId();
+
     }
+
 }

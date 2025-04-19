@@ -16,14 +16,10 @@ public class InvoiceController {
         this.invoiceService = invoiceService;
     }
 
-    @GetMapping("/{invoiceId}")
-    public Invoice getInvoice(@PathVariable Long invoiceId) {
-        return invoiceService.findById(invoiceId);
-    }
-
-    @GetMapping
-    public List<Invoice> getAllInvoices() {
-        return invoiceService.findAll();
+    @GetMapping("/{id}")
+    public Invoice getInvoice(@PathVariable Long id) {
+        return invoiceService.findById(id);
     }
 }
+
 
