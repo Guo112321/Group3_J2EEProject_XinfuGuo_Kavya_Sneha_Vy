@@ -1,20 +1,177 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Payment Page</title>
+    <meta charset="UTF-8">
+    <title>SmartConvenienceHub | Payment</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .section {
+            margin-top: 30px;
+        }
+
+        ul {
+            padding: 0;
+            list-style-type: none;
+        }
+
+        li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            font-size: 16px;
+        }
+
+        .total {
+            font-weight: bold;
+            text-align: right;
+            margin-top: 10px;
+            font-size: 18px;
+        }
+
+        .payment-methods label {
+            margin-right: 20px;
+            font-weight: 500;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        .card-section {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .btn-pay {
+            width: 100%;
+            background-color: #007bff;
+            color: white;
+            padding: 12px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-pay:hover {
+            background-color: #0056b3;
+        }
+
+        .error {
+            color: #d32f2f;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+    <script>
+        function toggleCardFields() {
+            const selected = document.querySelector('input[name="paymentMethod"]:checked').value;
+            document.getElementById('cardDetails').style.display = selected === 'card' ? 'block' : 'none';
+        }
+    </script>
 </head>
 <body>
+<div class="container">
+    <h1>💳 Payment</h1>
 
-<h2>Payment Page</h2>
-<div>
-    <p>Order ID: <span th:text="${orderId}"></span></p>
-    <p>Total Amount: <span th:text="${totalAmount}"></span></p>
-    <p>Status: <span th:text="${orderStatus}"></span></p>
+    <div th:if="${error}" class="error">
+        [[${error}]]
+    </div>
+
+    <form th:action="@{/payment/submit}" method="post">
+
+        <!-- 🛒 Cart Summary -->
+        <div class="section">
+            <h3>Cart Summary</h3>
+            <ul>
+                <li th:each="item : ${cartItems}">
+                    <span th:text="${item.inventory.itemName}"></span>
+                    <span>Qty: <span th:text="${item.quantity}"></span> @ $<span th:text="${item.inventory.price}"></span></span>
+                </li>
+            </ul>
+            <div class="total">
+                Total: $<span th:text="${totalAmount}"></span>
+            </div>
+        </div>
+
+        <!-- 💸 Payment Methods -->
+        <div class="section">
+            <h3>Choose Payment Method</h3>
+            <div class="payment-methods">
+                <label>
+                    <input type="radio" name="paymentMethod" value="card" onclick="toggleCardFields()" checked>
+                    Card
+                </label>
+                <label>
+                    <input type="radio" name="paymentMethod" value="paypal" onclick="toggleCardFields()">
+                    PayPal
+                </label>
+                <label>
+                    <input type="radio" name="paymentMethod" value="wallet" onclick="toggleCardFields()">
+                    Wallet
+                </label>
+            </div>
+        </div>
+
+        <!-- 🔐 Card Fields -->
+        <div id="cardDetails" class="card-section section">
+            <h3>Card Details</h3>
+            <label>Card Number:
+                <input type="text" name="cardNumber" placeholder="1234 5678 9012 3456">
+            </label>
+            <label>Expiry Date:
+                <input type="text" name="expiryDate" placeholder="MM/YY">
+            </label>
+            <label>CVV:
+                <input type="text" name="cvv" placeholder="123">
+            </label>
+        </div>
+
+        <!-- ✅ Submit Button -->
+        <div class="section">
+            <button type="submit" class="btn-pay">Pay & Continue</button>
+        </div>
+
+    </form>
 </div>
 
-<form th:action="@{/api/order/{orderId}/pay(orderId=${orderId})}" method="post">
-    <button type="submit">Confirm Payment</button>
-</form>
-
+<script>toggleCardFields();</script>
 </body>
 </html>

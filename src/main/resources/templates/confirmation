@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Order Confirmation</title>
+</head>
+<body>
+<h1>🎉 Payment Successful!</h1>
+<p>Your order has been placed and payment was received.</p>
+<a href="/">Return to Home</a>
+</body>
+</html>

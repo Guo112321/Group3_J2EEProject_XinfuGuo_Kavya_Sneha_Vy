@@ -152,12 +152,13 @@ public class CartController {
             inventoryService.addItem(inv);
         }
 
-        session.removeAttribute("cart");
+        // 🔥 INSTEAD OF CREATING INVOICE HERE...
+        // session.removeAttribute("cart");
 
-        Invoice invoice = invoiceService.generateInvoice(savedOrder);
+        // 🧳 Save order and items in session for payment step
+        session.setAttribute("cartItems", cart);
+        session.setAttribute("currentOrder", savedOrder);
 
-        return "redirect:/invoice.html?id=" + invoice.getId();
-
+        return "redirect:/payment";
     }
-
 }
