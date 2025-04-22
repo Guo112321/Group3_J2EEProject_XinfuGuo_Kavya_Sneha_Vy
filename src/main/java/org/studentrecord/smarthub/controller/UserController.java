@@ -57,6 +57,7 @@ public class UserController {
             role = Role.ROLE_CUSTOMER;
         }
 
+
         user.setRole(role);
         userService.registerUser(user);
         model.addAttribute("success", "Registration successful! Please log in.");
