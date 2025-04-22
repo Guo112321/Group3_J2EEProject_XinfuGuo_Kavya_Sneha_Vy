@@ -103,7 +103,7 @@
     </thead>
     <tbody>
     <tr th:each="item : ${cart}">
-      <td><img th:src="@{'/images/' + ${#strings.replace(item.inventory.itemName.toLowerCase(), ' ', '').replace('-', '')} + '.png'}" alt="Image"></td>
+<!--      <td><img th:src="@{'/images/' + ${#strings.replace(item.inventory.itemName.toLowerCase(), ' ', '').replace('-', '')} + '.png'}" alt="Image"></td>-->
       <td th:text="${item.inventory.itemName}"></td>
       <td>₹<span th:text="${item.price}"></span></td>
       <td>

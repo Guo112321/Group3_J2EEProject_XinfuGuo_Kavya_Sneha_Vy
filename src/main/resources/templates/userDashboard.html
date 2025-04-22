@@ -197,8 +197,8 @@
     <!-- 🛍 Product Cards -->
     <div class="products">
         <div class="product-card" th:each="item : ${inventory}">
-            <img th:src="@{'/images/' + ${#strings.replace(item.itemName.toLowerCase(), ' ', '').replace('-', '')} + '.png'}"
-                 alt="Product Image"/>
+<!--            <img th:src="@{'/images/' + ${#strings.replace(item.itemName.toLowerCase(), ' ', '').replace('-', '')} + '.png'}"-->
+<!--                 alt="Product Image"/>-->
             <h3 th:text="${item.itemName}">Item Name</h3>
             <p><strong>Category:</strong> <span th:text="${item.category}"></span></p>
             <p><strong>Price:</strong> ₹<span th:text="${item.price}"></span></p>
